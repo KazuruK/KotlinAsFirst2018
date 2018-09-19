@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import kotlin.math.*
@@ -58,7 +59,11 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
+    val h = hours * 3600
+    val m = minutes * 60
+    return h + m + seconds
+}
 
 /**
  * Тривиальная
@@ -67,7 +72,12 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = TODO()
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
+    val sagenesInVersoks = sagenes * 48
+    val arshinsInVersoks = arshins * 16
+    return (sagenesInVersoks + arshinsInVersoks + vershoks) * 4.445 / 100
+
+}
 
 /**
  * Тривиальная
@@ -91,7 +101,10 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = TODO()
+fun thirdDigit(number: Int): Int {
+    val third = number % 1000
+    return third / 100
+}
 
 /**
  * Простая
@@ -100,7 +113,11 @@ fun thirdDigit(number: Int): Int = TODO()
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = TODO()
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+    val h2Inm2 = (hoursArrive * 60) + minutesArrive
+    val h1Inm1 = (hoursDepart * 60) + minutesDepart
+    return h2Inm2 - h1Inm1
+}
 
 /**
  * Простая
@@ -117,4 +134,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = TODO()
+fun numberRevert(number: Int): Int {
+    val therdnumber = number % 10
+    val secondnumber = (number / 10) % 10
+    val firstnumber = number / 100
+    return (therdnumber * 100) + (secondnumber * 10) + firstnumber
+}
