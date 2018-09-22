@@ -151,7 +151,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val ad = max(a, d) - min(a, d)
     return when {
         ((a < c) && (b < c)) || ((a > c) && (a > d)) -> -1
-        (a < c) && (c <= b) && (b < d) -> cb
+        (a < c) && (c <= b) && (b <= d) -> cb
         (a >= c) && (c <= b) && (b < d) -> ab
         (a > c) && (c < b) && (b > d) && (a <= d) -> ad
         else -> cd
