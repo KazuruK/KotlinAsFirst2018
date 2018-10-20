@@ -1,7 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
+import kotlin.math.pow
 import kotlin.math.sqrt
+
 
 /**
  * Пример
@@ -11,7 +14,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -19,7 +22,7 @@ fun factorial(n: Int): Double {
 /**
  * Пример
  *
- * Проверка числа на простоту -- результат true, если число простое
+ * Проверка числа на простоту -- результат true, если число простое\
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
@@ -38,7 +41,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -66,7 +69,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var nSecond = n
+    if (n == 0) count++
+    while (nSecond != 0) {
+        count++
+        nSecond /= 10
+    }
+    return count
+}
 
 /**
  * Простая
@@ -74,7 +86,19 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var t1 = 1
+    var t2 = 1
+    var temp: Int
+    if (n <= 2) return 1 else
+        for (i in 3..n) {
+            temp = t2
+            t2 += t1
+            t1 = temp
+        }
+    return t2
+
+}
 
 /**
  * Простая
@@ -89,7 +113,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0) return i
+    }
+    return n
+}
 
 /**
  * Простая
@@ -191,7 +220,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i = 1
+    var count = 0
+    var result = -1
+    var tempSQR: Int
+    var tempDNSQR: Int
+    while (count != n) {
+        tempSQR = i * i
+        tempDNSQR = digitNumber(tempSQR)
+        if (n - count <= tempDNSQR) {
+            result = (tempSQR / 10.0.pow(tempDNSQR - (n - count)) % 10).toInt()
+            break
+        } else {
+            count += tempDNSQR
+            i++
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -202,4 +249,22 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var k = 1
+    var count = 0
+    var result = 0
+    var tempDNF: Int
+    var tempIFib: Int
+    while (count != n) {
+        tempIFib = fib(k)
+        tempDNF = digitNumber(tempIFib)
+        if (n - count <= tempDNF) {
+            result = (tempIFib / 10.0.pow(tempDNF - (n - count)) % 10).toInt()
+            break
+        } else {
+            count += tempDNF
+            k++
+        }
+    }
+    return result
+}
