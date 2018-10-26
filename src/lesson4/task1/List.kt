@@ -241,7 +241,7 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val numbers = LinkedHashMap<Int,String>()
+    val numbers = LinkedHashMap<Int, String>()
     var i = n
     var result = ""
     numbers[1] = "I"
@@ -258,14 +258,14 @@ fun roman(n: Int): String {
     numbers[900] = "CM"
     numbers[1000] = "M"
 
-    while (i > 0){
+    while (i > 0) {
         var k = 0
-        for((key) in numbers){
-            if (key <= i){
+        for ((key) in numbers) {
+            if (key <= i) {
                 k = key
             }
         }
-        result+= numbers[k]
+        result += numbers[k]
         i -= k
     }
     return result

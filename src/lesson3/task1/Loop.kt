@@ -224,11 +224,9 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var count = 0
     var result = -1
-    var tempSQR: Int
-    var tempDNSQR: Int
     while (count != n) {
-        tempSQR = i * i
-        tempDNSQR = digitNumber(tempSQR)
+        val tempSQR = i * i
+        val tempDNSQR = digitNumber(tempSQR)
         if (n - count <= tempDNSQR) {
             result = (tempSQR / 10.0.pow(tempDNSQR - (n - count)) % 10).toInt()
             break
@@ -253,11 +251,9 @@ fun fibSequenceDigit(n: Int): Int {
     var k = 1
     var count = 0
     var result = 0
-    var tempDNF: Int
-    var tempIFib: Int
     while (count != n) {
-        tempIFib = fib(k)
-        tempDNF = digitNumber(tempIFib)
+        val tempIFib = fib(k)
+        val tempDNF = digitNumber(tempIFib)
         if (n - count <= tempDNF) {
             result = (tempIFib / 10.0.pow(tempDNF - (n - count)) % 10).toInt()
             break
