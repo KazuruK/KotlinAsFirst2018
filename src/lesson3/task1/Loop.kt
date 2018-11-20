@@ -221,21 +221,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i = 1
+    var number = 1
     var count = 0
-    var result = -1
-    while (count != n) {
-        val tempSQR = i * i
-        val tempDNSQR = digitNumber(tempSQR)
-        if (n - count <= tempDNSQR) {
-            result = (tempSQR / 10.0.pow(tempDNSQR - (n - count)) % 10).toInt()
-            break
-        } else {
-            count += tempDNSQR
-            i++
-        }
+    while (count < n) {
+        var sqr  = number * number
+        count += digitNumber(sqr)
+        number += 1
     }
-    return result
+    if (count > n)
+        do count -= 1
+        while (count != n)
+    return count
 }
 
 /**
