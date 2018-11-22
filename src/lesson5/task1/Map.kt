@@ -173,7 +173,36 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): MutableMap<String, Set<String>> {
+    val map = mutableMapOf<String, Set<String>>()
+    map += friends
+    val list = mutableListOf<String>()
+    val listNames = mutableListOf<String>()
+    for ((name, friend) in friends) {
+        listNames.add(name)
+        list += friend.toList() + name
+    }
+    val leaf = mutableListOf<String>()
+    for (i in list)
+        if (i !in leaf) leaf.add(i)
+    for ((name, friend) in friends) {
+        val set = mutableSetOf<String>()
+        set += friend
+        for (i in 1..friends.size) {
+            for ((man, people) in friends) {
+                if (man in set) {
+                    set += people - name
+                    map += Pair(name, set)
+
+                }
+            }
+        }
+    }
+    val c = setOf<String>()
+    if ((leaf - listNames).isNotEmpty())
+        for (i in (leaf - listNames)) map[i] = c
+    return map
+}
 
 /**
  * Простая
@@ -251,7 +280,12 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    for (i in list)
+        if ((list - i).contains(number - i))
+            return Pair(list.indexOf(i), (list - i).indexOf(number - i) + 1)
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная

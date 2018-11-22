@@ -49,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +69,52 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun daysInMonth(month: Int, year: Int): Int =
+        when (month) {
+            2 -> if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) 29 else 28
+            4, 6, 9, 11 -> 30
+            else -> 31
+        }
+
+fun monthStrInInt(s: String): Int =
+        when (s) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> throw IllegalArgumentException()
+
+
+        }
+
+fun dateStrToDigit(str: String): String {
+
+
+    return try {
+
+        val parts = str.split(" ")
+        val day = parts[0].toInt()
+        val month = monthStrInInt(parts[1])
+        val year = parts[2].toInt()
+        if (day !in 1..daysInMonth(month, year)) {
+            throw IllegalArgumentException()
+        }
+
+        String.format("%02d.%02d.%d", day, month, year)
+    } catch (e: Exception) {
+        ""
+    }
+
+
+}
 
 /**
  * Средняя
@@ -121,7 +164,23 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int =
+        if (Regex("""([\s\-%+\d])+""").matches(jumps)) {
+            val HigherJump = jumps
+                    .replace(Regex("""\s+"""), "")
+                    .replace(Regex("""(%+\+)"""), "+")
+                    .replace(Regex("""%+"""), "-")
+                    .replace(Regex("""-+(\+-)(-\+)"""), "-")
+                    .replace(Regex("""(\d+-+)"""), "")
+            HigherJump.split("+").map {
+                try {
+                    it.toInt()
+                } catch (e: Exception) {
+                    -1
+                }
+            }.max()!!
+        } else -1
+
 
 /**
  * Сложная
@@ -132,7 +191,14 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int =
+        if (Regex("""^\d+([\s]*[+|-][\s]*\d+)*""").matches(expression)) {
+            expression
+                    .replace(Regex("""\s+"""), "")
+                    .split((Regex("""(?=[-|+])""")))
+                    .map { it.toInt() }
+                    .sum()
+        } else throw IllegalArgumentException()
 
 /**
  * Сложная
@@ -143,7 +209,20 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val part = str.split(" ")
+    var index = 0
+    try {
+        for (i in 0 until part.size - 1) {
+            if (part[i].toLowerCase() == part[i + 1].toLowerCase())
+                return index
+            else index += part[i].length + 1
+        }
+    } catch (e: IndexOutOfBoundsException) {
+        -1
+    }
+    return -1
+}
 
 /**
  * Сложная
