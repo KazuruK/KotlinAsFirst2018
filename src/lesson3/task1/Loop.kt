@@ -2,9 +2,9 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.pow
 import kotlin.math.sqrt
-
 
 /**
  * Пример
@@ -221,17 +221,26 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var number = 1
-    var count = 0
-    while (count < n) {
-        var sqr  = number * number
-        count += digitNumber(sqr)
-        number += 1
+    if (n == 1) return 1
+    var digitsSum = 1
+    var count = 1
+    var square = 1
+    while (digitsSum < n) {
+        count++
+        square = sqr(count)
+        var numberOfDigits = digitNumber(square)
+        digitsSum += numberOfDigits
     }
-    if (count > n)
-        do count -= 1
-        while (count != n)
-    return count
+    return square / power(10, digitsSum - n) % 10
+}
+
+fun power(n: Int, m: Int): Int {
+    var result = n
+    for (i in m downTo 2) {
+        result *= n
+    }
+    if (m == 0) return 1
+    return result
 }
 
 /**
