@@ -54,16 +54,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val result = mutableMapOf<String, Int>()
-    val inputTextName = buildString {
-        for (line in File(inputName).readLines()) append(line.toLowerCase() + " ")
-    }
-    for (str in substrings) {
-        val lowStr = str.toLowerCase()
-        val mat = Regex(lowStr).findAll(inputTextName, 0)
-        result[str] = mat.toList().size
-    }
-    return result
+    TODO()
 }
 
 
@@ -136,7 +127,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val lines = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
     if (lines.isNotEmpty()) {
-        val maxLenght = lines
+        val maxLength = lines
                 .maxBy { it.trim().length }!!
                 .trim()
                 .split(Regex("""\s+"""))
@@ -150,7 +141,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 writer.write(parStr.replace(Regex("""\s+"""), ""))
             else {
                 val stringList = mutableListOf<String>()
-                var needStr = maxLenght - words.fold(0) { total, next -> total + next.length }
+                var needStr = maxLength - words.fold(0) { total, next -> total + next.length }
                 val countStr = needStr / (words.size - 1)
                 needStr -= countStr * (words.size - 1)
                 for (word in words) {

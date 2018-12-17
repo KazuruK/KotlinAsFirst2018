@@ -201,28 +201,28 @@ class Tests {
     fun propagateHandshakes() {
         assertEquals(
                 mapOf(
-                        "Marat" to setOf("Mikhail", "Sveta"),
-                        "Sveta" to setOf("Mikhail"),
-                        "Mikhail" to setOf()
+                        "Alena" to setOf("Vika", "Sasha", "Vova", "Igor", "Tema", "Artur", "Ania"),
+                        "Sasha" to setOf("Alena", "Vova", "Vika", "Igor", "Tema", "Artur", "Ania"),
+                        "Tania" to setOf("Arina", "Vika", "Igor", "Alena", "Tema", "Artur", "Ania", "Sasha", "Vova"),
+                        "Vika" to setOf("Igor", "Tema", "Artur", "Ania", "Sasha", "Vova", "Artur", "Alena"),
+                        "Igor" to setOf("Vika", "Tema", "Artur", "Ania", "Sasha", "Vova", "Alena"),
+                        "Arina" to setOf("Tania", "Vika", "Igor", "Tema", "Artur", "Ania", "Sasha", "Vova", "Alena"),
+                        "Artur" to setOf("Ania"),
+                        "Vova" to setOf(),
+                        "Tema" to setOf(),
+                        "Ania" to setOf()
+
+
                 ),
                 propagateHandshakes(
                         mapOf(
-                                "Marat" to setOf("Sveta"),
-                                "Sveta" to setOf("Mikhail")
-                        )
-                )
-        )
-        assertEquals(
-                mapOf(
-                        "Marat" to setOf("Mikhail", "Sveta"),
-                        "Sveta" to setOf("Marat", "Mikhail"),
-                        "Mikhail" to setOf("Sveta", "Marat")
-                ),
-                propagateHandshakes(
-                        mapOf(
-                                "Marat" to setOf("Mikhail", "Sveta"),
-                                "Sveta" to setOf("Marat"),
-                                "Mikhail" to setOf("Sveta")
+                                "Alena" to setOf("Vika", "Sasha", "Vova"),
+                                "Sasha" to setOf("Alena", "Vova"),
+                                "Tania" to setOf("Arina", "Vika"),
+                                "Vika" to setOf("Igor", "Alena"),
+                                "Igor" to setOf("Vika", "Tema", "Artur"),
+                                "Arina" to setOf("Tania"),
+                                "Artur" to setOf("Ania")
                         )
                 )
         )

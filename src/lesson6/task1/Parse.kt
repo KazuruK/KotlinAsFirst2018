@@ -76,24 +76,8 @@ fun daysInMonth(month: Int, year: Int): Int =
             else -> 31
         }
 
-fun monthStrInInt(s: String): Int =
-        when (s) {
-            "января" -> 1
-            "февраля" -> 2
-            "марта" -> 3
-            "апреля" -> 4
-            "мая" -> 5
-            "июня" -> 6
-            "июля" -> 7
-            "августа" -> 8
-            "сентября" -> 9
-            "октября" -> 10
-            "ноября" -> 11
-            "декабря" -> 12
-            else -> throw IllegalArgumentException()
 
-
-        }
+val monthList = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 fun dateStrToDigit(str: String): String {
 
@@ -102,19 +86,22 @@ fun dateStrToDigit(str: String): String {
 
         val parts = str.split(" ")
         val day = parts[0].toInt()
-        val month = monthStrInInt(parts[1])
+        if (parts.size != 3) return ""
+        if (parts[1] !in monthList) return ""
+        val month = monthList.indexOf(parts[1]) + 1
         val year = parts[2].toInt()
         if (day !in 1..daysInMonth(month, year)) {
-            throw IllegalArgumentException()
+            return ""
         }
 
         String.format("%02d.%02d.%d", day, month, year)
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         ""
     }
 
 
 }
+
 
 /**
  * Средняя
@@ -165,7 +152,7 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int =
-        if (Regex("""([\s\-%+\d])+""").matches(jumps)) {
+        if (Regex("""[^0-9%+\-\s]|-+\d""") !in jumps && Regex("""\+""") in jumps) {
             val HigherJump = jumps
                     .replace(Regex("""\s+"""), "")
                     .replace(Regex("""(%+\+)"""), "+")
@@ -212,14 +199,10 @@ fun plusMinus(expression: String): Int =
 fun firstDuplicateIndex(str: String): Int {
     val part = str.split(" ")
     var index = 0
-    try {
-        for (i in 0 until part.size - 1) {
-            if (part[i].toLowerCase() == part[i + 1].toLowerCase())
-                return index
-            else index += part[i].length + 1
-        }
-    } catch (e: IndexOutOfBoundsException) {
-        -1
+    for (i in 0 until part.size - 1) {
+        if (part[i].toLowerCase() == part[i + 1].toLowerCase())
+            return index
+        else index += part[i].length + 1
     }
     return -1
 }

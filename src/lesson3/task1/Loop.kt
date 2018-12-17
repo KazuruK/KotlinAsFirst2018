@@ -3,7 +3,6 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -114,6 +113,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
+    if (n % 2 == 0) return 2
     for (i in 2..sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) return i
     }
@@ -228,13 +228,13 @@ fun squareSequenceDigit(n: Int): Int {
     while (digitsSum < n) {
         count++
         square = sqr(count)
-        var numberOfDigits = digitNumber(square)
+        val numberOfDigits = digitNumber(square)
         digitsSum += numberOfDigits
     }
-    return square / power(10, digitsSum - n) % 10
+    return square / powInt(10, digitsSum - n) % 10
 }
 
-fun power(n: Int, m: Int): Int {
+fun powInt(n: Int, m: Int): Int {
     var result = n
     for (i in m downTo 2) {
         result *= n
@@ -257,13 +257,13 @@ fun fibSequenceDigit(n: Int): Int {
     var count = 0
     var result = 0
     while (count != n) {
-        val tempIFib = fib(k)
-        val tempDNF = digitNumber(tempIFib)
-        if (n - count <= tempDNF) {
-            result = (tempIFib / 10.0.pow(tempDNF - (n - count)) % 10).toInt()
+        val kFib = fib(k)
+        val quantityKFIB = digitNumber(kFib)
+        if (n - count <= quantityKFIB) {
+            result = kFib / powInt(10, quantityKFIB - (n - count)) % 10
             break
         } else {
-            count += tempDNF
+            count += quantityKFIB
             k++
         }
     }

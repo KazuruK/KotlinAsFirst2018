@@ -223,10 +223,10 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
 fun decimalFromString(str: String, base: Int): Int {
     var sum = 0
     for (char in str) {
-        sum = if (char.toInt() in 97..122) {
-            sum * base + char.toInt() - 87
+        sum = if (char in 'a'..'z') {
+            sum * base + char.toInt() - 'a'.toInt() + 10
         } else {
-            sum * base + char.toInt() - 48
+            sum * base + char.toInt() - '0'.toInt()
         }
     }
     return sum
@@ -240,24 +240,25 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+val numbers = mutableMapOf(
+        1 to "I",
+        4 to "IV",
+        5 to "V",
+        9 to "IX",
+        10 to "X",
+        40 to "XL",
+        50 to "L",
+        90 to "XC",
+        100 to "C",
+        400 to "CD",
+        500 to "D",
+        900 to "CM",
+        1000 to "M")
+
+
 fun roman(n: Int): String {
-    val numbers = LinkedHashMap<Int, String>()
     var i = n
     val result = StringBuilder()
-    numbers[1] = "I"
-    numbers[4] = "IV"
-    numbers[5] = "V"
-    numbers[9] = "IX"
-    numbers[10] = "X"
-    numbers[40] = "XL"
-    numbers[50] = "L"
-    numbers[90] = "XC"
-    numbers[100] = "C"
-    numbers[400] = "CD"
-    numbers[500] = "D"
-    numbers[900] = "CM"
-    numbers[1000] = "M"
-
     while (i > 0) {
         var k = 0
         for ((key) in numbers) {
