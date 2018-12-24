@@ -153,13 +153,13 @@ fun bestLongJump(jumps: String): Int = TODO()
  */
 fun bestHighJump(jumps: String): Int =
         if (Regex("""[^0-9%+\-\s]|-+\d""") !in jumps && Regex("""\+""") in jumps) {
-            val HigherJump = jumps
+            val higherJump = jumps
                     .replace(Regex("""\s+"""), "")
                     .replace(Regex("""(%+\+)"""), "+")
                     .replace(Regex("""%+"""), "-")
                     .replace(Regex("""-+(\+-)(-\+)"""), "-")
                     .replace(Regex("""(\d+-+)"""), "")
-            HigherJump.split("+").map {
+            higherJump.split("+").map {
                 try {
                     it.toInt()
                 } catch (e: Exception) {

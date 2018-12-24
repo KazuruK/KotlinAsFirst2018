@@ -220,19 +220,22 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    if (n == 1) return 1
-    var digitsSum = 1
-    var count = 1
-    var square = 1
+fun sequenceDigit(squareSequence: Boolean, n: Int): Int {
+    var digitsSum = 0
+    var count = 0
+    var number = 0
+    fun squareOrFib(count: Int): Int {
+        return if (squareSequence) sqr(count) else fib(count)
+    }
     while (digitsSum < n) {
         count++
-        square = sqr(count)
-        val numberOfDigits = digitNumber(square)
-        digitsSum += numberOfDigits
+        number = squareOrFib(count)
+        digitsSum += digitNumber(number)
     }
-    return square / powInt(10, digitsSum - n) % 10
+    return (number / Math.pow(10.0, (digitsSum - n).toDouble()) % 10.0).toInt()
 }
+
+fun squareSequenceDigit(n: Int): Int = sequenceDigit(true, n)
 
 fun powInt(n: Int, m: Int): Int {
     var result = n
