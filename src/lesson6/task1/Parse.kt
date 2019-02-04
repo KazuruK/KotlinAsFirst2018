@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import java.io.File
+import java.io.IOException
+
 /**
  * Пример
  *
@@ -42,20 +45,7 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-fun main(args: Array<String>) {
-    println("Введите время в формате ЧЧ:ММ:СС")
-    val line = readLine()
-    if (line != null) {
-        val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
-            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        } else {
-            println("Прошло секунд с начала суток: $seconds")
-        }
-    } else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-    }
-}
+
 
 
 /**
@@ -269,4 +259,75 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+// функция для ручной отладки
+fun main(args: Array<String>) {
+    val link = "input/stock.txt"
+    val query = "* 30"
+    stockParse(link, query)
+}
+
+data class Product(val ind: String, val name: String, val price: Int, val count: Int, val type: String) {
+
+    // функция класса для выявления недостатка по запросу
+    fun flawAmount(num: Int): Int = if (num > count) (num - count) else 0
+
+    // функция проверки соответствия индекса товара по запросу
+    fun queryValid(request: String): Boolean {
+        val charList = ind.toList()
+        val charRequest = request.toList()
+        if (request.isBlank() || charList.size != charRequest.size) return request == "*"
+        for (i in 0 until charList.size)
+            if ((charList[i] != charRequest[i]) && (charRequest[i] != '?')) return false
+        return true
+    }
+
+}
+
+data class QueryReply(val item: Product, val flaw: Int)
+
+fun stockParse(inputName: String, query: String): List<QueryReply> {
+
+    // Функция будет возвращать список продуктов, подходящих по запросу
+    // в виде списка: list<QueryReply>
+    // QueryReply - класс возвращаемых данных, созданный специально для результата
+    // Тип QueryReply содержит в себе два свойства, item: Product и flaw: Int, где:
+    // item: Product - сам товар, соответсвующий заданному вопросу
+    // flaw: Int - недостаток товара по запросу. Если товара хватает, то равен нулю.
+
+    val result = mutableListOf<QueryReply>()
+    var list = listOf<String>()
+    val products = mutableListOf<Product>()
+    val str = try { File(inputName).readLines().toMutableList() } catch (e: IOException)
+    { throw IOException("Невозможно прочитать файл $inputName !") }
+    str.forEach {
+        if (!it.matches(Regex("""\d{6}(\s\-\s)([а-я]|[А-Я]|\w)+,\s\d+\s\р,\s\d+\s(кг|уп|шт|гр)+""")))
+            throw IllegalArgumentException("Файл $inputName не соответствует формату!")
+        list = it.replace(Regex(""","""), "").split(" ")
+        products.add(Product(list[0], list[2], list[3].toInt(), list[5].toInt(), list[6]))
+    }
+    // проверка правильности формата запроса query
+    if (!query.matches(Regex("""((\d|\?){6}|\*)\s\d+""")))
+        throw IllegalArgumentException("Запрос query($query) не соответствует заданному формату!")
+
+    val queryId = query.split(" ").first()
+    val queryAmount = query.split(" ").last().toInt()
+
+    for (item in products) if (item.queryValid(queryId)) result.add(QueryReply(item, item.flawAmount(queryAmount)))
+
+    // выводим при надобности результат запроса в консоль
+    displayAnswer(result, query)
+    // возвращаем результат функции
+    return result
+}
+
+// функция, выводящая строковый результат в консоль
+fun displayAnswer(result: List<QueryReply>, query: String) {
+    println("Продукты, соответствующие запросу query: \"$query\" \n")
+    var count = 1
+    for (product in result) {
+        println("$count. (" + product.item.ind + ") " + product.item.name + ", имеется на складе: " + product.item.count + product.item.type)
+        if (product.flaw != 0) println("\tНедостаток по запросу: " + product.flaw + product.item.type)
+        else println("\tКоличество товара на складе удовлетворяет запрос")
+        count++
+    }
+}

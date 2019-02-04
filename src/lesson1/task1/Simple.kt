@@ -2,7 +2,7 @@
 
 package lesson1.task1
 
-import kotlin.math.*
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -72,7 +72,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val sagenesInVersoks = sagenes * 48
     val arshinsInVersoks = arshins * 16
     return (sagenesInVersoks + arshinsInVersoks + vershoks) * 4.445 / 100
@@ -139,4 +139,51 @@ fun numberRevert(number: Int): Int {
     val secondNumber = (number / 10) % 10
     val firstNumber = number / 100
     return (thirdNumber * 100) + (secondNumber * 10) + firstNumber
+
+
+/*
+Номера телефонов
+fun telephone(inputName: String, query: String): String {
+val inputStream = File(inputName).readLines()
+if (inputName.isEmpty())
+throw IOException()
+val result = StringBuilder()
+var first = query.split(" ")
+inputStream.forEach { lines ->
+val newLine = lines.split("-")
+if (newLine[0].trim() == first[0]) {
+val splName = newLine[1].split(",")
+for (i in 0 until splName.size) {
+val newresult = splName[i].split(" ")
+if (newresult[0].trim() == first[1])
+result.append(newresult[1])
 }
+}
+}
+return result.toString()
+}
+
+*/
+
+/* Аеропорты
+fun plane(inputName: String, src: String, dst: String): Boolean {
+val inputStream = File(inputName).readLines()
+if (inputName.isEmpty())
+throw IOException()
+var first = false
+var second = false
+inputStream.forEach { lines ->
+if (!Regex("""[a-zA-Z\d+]+\s[a-zA-Z]+\s>\s\d\d:\d\d""").matches(inputName) ||
+!Regex("""[a-zA-Z\d+]+\s[a-zA-Z]+\s<\s\d\d:\d\d""").matches(inputName) ||
+!Regex("""[a-zA-Z]+""").matches(src) ||
+!Regex("""[a-zA-Z]+""").matches(dst))
+throw IllegalArgumentException()
+var word = lines.split(" ")
+first = word[1] == src && word[2] == ">"
+second = word[1] == dst && word[2] == "<"
+}
+return first && second
+}
+ */
+
+//triadecom

@@ -1,6 +1,6 @@
 package lesson7.task1
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -18,7 +18,7 @@ class Tests {
     fun alignFile() {
         alignFile("input/align_in1.txt", 50, "temp.txt")
         assertFileContent("temp.txt",
-"""Для написания разных видов программ сейчас
+                """Для написания разных видов программ сейчас
 применяются разные языки программирования.
 Например, в сфере мобильных программ сейчас правят
 бал языки Swift (мобильные устройства под
@@ -69,7 +69,7 @@ Basic, Ruby, Swift.
     fun sibilants() {
         sibilants("input/sibilants_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
-"""/**
+                """/**
  * Простая
  *
  * В русском языке, как правило, после букв Ж, Ч, Ш, Щ пишется И, А, У, а не Ы, Я, Ю.
@@ -91,11 +91,11 @@ Basic, Ruby, Swift.
     fun centerFile() {
         centerFile("input/center_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
-"""              Съешь же ещё этих мягких французских булок, да выпей чаю.
+                """              Съешь же ещё этих мягких французских булок, да выпей чаю.
 Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства.
                                         Тест
                                           """ +  // Avoiding trailing whitespaces problem
-"""
+                        """
                                      Hello World
            Во входном файле с именем inputName содержится некоторый текст.
         Вывести его в выходной файл с именем outputName, выровняв по центру.""")
@@ -306,8 +306,8 @@ Basic, Ruby, Swift.
         }
 
         test(19935,
-             111,
-             """
+                111,
+                """
                 19935
              *    111
              --------
@@ -320,8 +320,8 @@ Basic, Ruby, Swift.
         )
 
         test(12345,
-             76,
-             """
+                76,
+                """
                12345
              *    76
              -------
@@ -333,8 +333,8 @@ Basic, Ruby, Swift.
         )
 
         test(12345,
-             6,
-             """
+                6,
+                """
               12345
              *    6
              ------
@@ -346,64 +346,4 @@ Basic, Ruby, Swift.
 
     }
 
-    @Test
-    @Tag("Hard")
-    fun printDivisionProcess() {
 
-        fun test(lhv: Int, rhv: Int, res: String) {
-            printDivisionProcess(lhv, rhv, "temp.txt")
-            assertFileContent("temp.txt", res.trimIndent())
-            File("temp.txt").delete()
-        }
-
-        test(199735,
-             22,
-             """
-              19935 | 22
-             -198     906
-             ----
-                13
-                -0
-                --
-                135
-               -132
-               ----
-                  3
-             """
-        )
-
-        test(2,
-             20,
-             """
-              2 | 20
-             -0   0
-             --
-              2
-             """
-        )
-
-        test(99999,
-             1,
-             """
-              99999 | 1
-             -9       99999
-             --
-              09
-              -9
-              --
-               09
-               -9
-               --
-                09
-                -9
-                --
-                 09
-                 -9
-                 --
-                  0
-             """
-        )
-
-        File("temp.txt").delete()
-    }
-}
